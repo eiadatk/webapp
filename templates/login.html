@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>تسجيل الدخول</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Tajawal', sans-serif;
+    background: #e8f0f8; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-box {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    width: 300px;
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .login-box h2 {
+    color: #155d50; 
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 28px;
+  }
+
+ .login-box .error {
+  background-color: #ffe6e9;    /* لون وردي فاتح لطيف */
+  color: #d32f2f;               /* أحمر داكن واضح */
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+  text-align: center;
+}
+
+
+  .login-box input[type="text"],
+  .login-box input[type="password"] {
+    width: 100%;
+    padding: 14px 1px;
+    margin: 12px 0;
+    border: 2px solid #155d50;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #155d50;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .login-box input[type="text"]:focus,
+  .login-box input[type="password"]:focus {
+    border-color: #2a9d8f; 
+  }
+
+  .login-box button.btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(45deg, #155d50, #2a9d8f);
+    border: none;
+    border-radius: 8px;
+    color: #e6f0f3; /* أبيض  مزررق */
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.4s ease;
+    margin-top: 15px;
+  }
+
+  .login-box button.btn:hover {
+    background: linear-gradient(45deg, #2a9d8f, #155d50);
+  }
+
+  .login-box p {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #155d50;
+  }
+
+  .login-box p a {
+    color: #2a9d8f;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .login-box p a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 400px) {
+    .login-box {
+      width: 90%;
+      padding: 30px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+  
+<div class="login-box">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <p class="error">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+  {% endwith %}
+  
+  <h2>تسجيل الدخول</h2>
+  {% if error %}
+      <p class="error">{{ error }}</p>
+  {% endif %}
+  <form method="POST">
+      <input type="text" name="email" placeholder=" حساب الجيميل الخاص بك" required />
+      <input type="password" name="password" placeholder="كلمة المرور" required />
+      <button type="submit" class="btn">دخول</button>
+  </form>
+  <p>
+      ليس لديك حساب؟ <a href="{{ url_for('register') }}">إنشاء حساب جديد</a>
+  </p>
+
+  <p>
+          بدخولك للمنصه فإنك توافق على  سياسة الخصوصيه 
+
+  </p>
+</div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>التحقق من الرمز</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+
+    body {
+      background-color: #e8f0f8;
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      padding: 15px 25px;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 35px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(21, 93, 80, 0.15);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #155d50;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    .message {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      border: 2px solid #155d50;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      direction: ltr; /* لتسهيل إدخال الأرقام */
+      text-align: center;
+      letter-spacing: 4px;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2a9d8f;
+      box-shadow: 0 0 8px rgba(42, 157, 143, 0.3);
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      color: #fff;
+      border: none;
+      padding: 14px 0;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #2a9d8f, #155d50);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        margin: 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div>منصة عيادتك</div>
+  </div>
+
+  <div class="container">
+    <h2>أدخل رمز التحقق</h2>
+
+    <!-- رسائل الخطأ أو النجاح -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" autocomplete="off">
+       
+      <p style="color: #155d50; font-weight: 600; margin-bottom: 20px;">
+        تم إرسال رمز التحقق إلى بريدك الإلكتروني: 
+        <span style="color: #2a9d8f;">{{ email }}</span>
+      </p>
+
+      <input type="text" name="otp" placeholder="أدخل الرمز هنا" maxlength="6" required pattern="\d{6}" title="يرجى إدخال 6 أرقام" inputmode="numeric" />
+      
+      <button type="submit" class="btn">تأكيد الرمز</button>
+    </form>
+  </div>
+
+</body>
+</html>

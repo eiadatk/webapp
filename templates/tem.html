@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>فريق العمل - عيادتك</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(135deg, #ffe3ec, #e0f8f2);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #7de2d1, #57c4ad);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 18px;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      font-size: 28px;
+      color: #2c9477;
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    h2::after {
+      content: "";
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #2c9477, #a0d9c6);
+      position: absolute;
+      bottom: -8px;
+      right: 0;
+      border-radius: 2px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.6);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transform: scale(1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: fadeIn 0.8s ease-in-out forwards;
+      opacity: 0;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+
+
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #7de2d1;
+      margin-bottom: 15px;
+    }
+
+    .name {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .role {
+      font-size: 14px;
+      color: #555;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+
+    .crown {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: linear-gradient(135deg, #ffd700, #ffbf00);
+      color: white;
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: bounce 1s infinite;
+    }
+.navbar {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      padding: 15px 25px;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+        .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+    .card-container {
+      position: relative;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 32px;
+      }
+    
+    }
+  </style>
+</head>
+<body>
+<div class="navbar">
+  <div>منصة عيادتك</div>
+  <div class="nav-links">
+
+      <a href="{{url_for('index')}}"> الرئيسيه</a>
+
+    <a href="{{ url_for('my_appointments') }}">مواعيدي</a>
+
+    <a href="{{ url_for('about') }}">من نحن</a>
+
+    <a href="{{ url_for('logout') }}">تسجيل الخروج</a>
+
+  </div>
+</div>
+  <header>
+    <h1>فريق عيادتك</h1>
+    <p>مشروع تم تطويره بإبداع مشترك بين نخبة من المبرمجين وأعضاء الفريق</p>
+  </header>
+  <section>
+    <h2> مــشـرف الفريق</h2>
+    <div class="team-grid">
+      <div class="card">
+        <div class="name"> أ / خميس باحشوان</div>
+        <div class="crown">مشرف الفريق</div>
+
+      </div>
+  </section>
+  
+
+
+
+
+
+<section class="hhh">
+  <h2>أعضاء الفريق</h2>
+
+  <div class="team-grid">
+    <div class="card">
+      <div class="name">عمر لطفي البيتي</div>
+      <div class="crown">الـقائد</div>
+
+    </div>
+
+    <div class="card">
+      <div class="name">عبدالله علي الأشولي</div>
+    </div>
+
+    <div class="card">
+      <div class="name">محمد صالح باعبود</div>
+    </div>     
+
+    <div class="card">
+      <div class="name">احمد نزار بن لسود</div>
+    </div>      
+
+    <div class="card">
+      <div class="name">نواف ياسر بن حيدر</div>
+    </div>     
+
+    <div class="card">        
+      <div class="name">الحارث عبد الجليل الشرعبي</div>
+    </div>     
+
+    <div class="card">        
+      <div class="name">طارق بن زياد</div>
+    </div>     
+
+    <div class="card">        
+      <div class="name">عمار رياض بلعيكم</div>
+    </div>     
+
+    <div class="card">        
+      <div class="name">احمد بن زياد</div>
+    </div>     
+
+    <div class="card">        
+      <div class="name">محمد مجدي عرم</div>
+    </div>     
+
+    <div class="card">
+      <div class="name">محمد بن بدر</div>
+    </div>           
+  </div>
+</section>
+  <section>
+
+
+    <h2> المبرمجون  👨‍💻</h2>
+    <div class="team-grid">
+      <div class="card-container">
+        <div class="card">
+          <div class="name">حســين عبد العزيز الصافي</div>
+          <div class="role"> مهندس باكند & فروند اند </div>
+        </div>
+        <div class="crown">مبرمج</div>
+      </div>
+  </section>
+<section>
+      <div class="card-container">
+        <div class="card">
+          <div class="name"> صالح عبد العزيز ملهي </div>
+          <div class="role"> مهندس باكند</div>
+        </div>
+        <div class="crown">مبرمج</div>
+      </div>
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>مواعيدي</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #155d50, #2a9d8f);
+            font-family: 'Tajawal', sans-serif;
+            padding: 30px 10px;
+            margin: 0;
+            color: #e6f0f3;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #e6f0f3;
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            max-width: 1000px;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+        thead tr th {
+            background: #1f7a63;
+            padding: 12px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #e6f0f3;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        tbody tr {
+            background: #ffffff;
+            color: #155d50;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        tbody tr:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        tbody tr td {
+            padding: 12px 8px;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        tbody tr td:first-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        tbody tr td:last-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        .cancel-btn {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .cancel-btn:hover {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        tbody tr.no-appointments td {
+            background: transparent;
+            color: #000000;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            padding: 30px 0;
+        }
+.navbar {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      padding: 15px 25px;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+        .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+            }
+            thead {
+                display: none;
+            }
+            tbody tr {
+                margin-bottom: 15px;
+                background: #ffffff;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            tbody tr td {
+                text-align: right;
+                padding: 8px 12px;
+                position: relative;
+                font-size: 14px;
+            }
+            tbody tr td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 12px;
+                top: 8px;
+                font-weight: bold;
+                color: #155d50;
+            }
+        }
+    </style>
+</head>
+<body>
+
+      <div class="navbar">
+    <div class="nav-links">
+      <a href="{{url_for('index')}}"> الرئيسيه</a>
+
+    <a href="{{ url_for('my_appointments') }}">مواعيدي</a>
+
+    <a href="{{ url_for('about') }}">من نحن</a>
+
+    <a href="{{ url_for('logout') }}">تسجيل الخروج</a>
+    </div>
+  </div>
+
+    <h2>مواعيدي</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>التاريخ</th>
+                <th>الفترة</th>
+                <th>الطبيب</th>
+                <th>العيادة</th>
+                <th>المستشفى</th>
+                <th>رقم الحضور</th>
+                <th>الإجراء</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td data-label="التاريخ">{{ appointment.date }}</td>
+                <td data-label="الفترة">{{ appointment.period }}</td>
+                <td>{{ appointment.doctor.name }}</td>
+                <td>{{ appointment.doctor.clinic.name }}</td>
+                <td>{{ appointment.doctor.clinic.hospital.name }}</td>
+
+                <td data-label="رقم الحضور">{{ appointment.attendance_number }}</td>
+                <td data-label="الإجراء">
+                    <form action="/cancel_appointment/{{ appointment.id }}" method="POST" style="margin:0;">
+                        <button type="submit" class="cancel-btn">إلغاء</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr class="no-appointments">
+                <td colspan="7">لا توجد مواعيد مسجلة.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

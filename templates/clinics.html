@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>العيادات في {{ hospital.name }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+        body {
+            background: #e8f0f8;
+            font-family: 'Tajawal', sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        h2 {
+            color: #155d50;
+            margin-bottom: 20px;
+        }
+
+            .navbar {
+      background: linear-gradient(45deg, #a4a4a46e, #074b44);
+      padding: 15px 25px;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+        .clinic {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .clinic:hover {
+            background-color: #f0f8ff;
+        }
+        a {
+            color: #155d50;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 18px;
+            background: linear-gradient(45deg, #155d50, #2a9d8f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        a:hover {
+            background: linear-gradient(45deg, #2a9d8f, #155d50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div>منصة عيادتك</div>
+    <div class="nav-links">
+      
+      <a href="{{url_for('index')}}"> الرئيسيه</a>
+
+    <a href="{{ url_for('my_appointments') }}">مواعيدي</a>
+
+    <a href="{{ url_for('about') }}">من نحن</a>
+
+    <a href="{{ url_for('logout') }}">تسجيل الخروج</a>
+    </div>
+</div>
+
+<h2>العيادات في {{ hospital.name }}</h2>
+
+{% if clinics %}
+  {% for clinic in clinics %}
+    <div class="clinic">
+<a href="{{ url_for('clinic_doctors', clinic_id=clinic.id) }}">{{ clinic.name }}</a>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>لا توجد عيادات لهذا المستشفى.</p>
+{% endif %}
+
+</body>
+</html>

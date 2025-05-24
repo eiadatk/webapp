@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>لوحة تحكم المستشفى</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f2f5;
+            color: #2c3e50;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f93ec, #285fad);
+            padding: 20px 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto 60px;
+            padding: 0 20px;
+        }
+
+        .add-patient-form {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .add-patient-form h3 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #34495e;
+            font-weight: 700;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        .add-patient-form input,
+        .add-patient-form select {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            border: 1.6px solid #ced4da;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .add-patient-form input:focus,
+        .add-patient-form select:focus {
+            border-color: #4f93ec;
+            outline: none;
+            box-shadow: 0 0 8px rgba(79, 147, 236, 0.4);
+        }
+
+        .add-patient-form button {
+            width: 100%;
+            padding: 16px;
+            background-color: #4f93ec;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 147, 236, 0.4);
+        }
+
+        .add-patient-form button:hover {
+            background-color: #285fad;
+            box-shadow: 0 6px 20px rgba(40, 95, 173, 0.6);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            background: transparent;
+            font-size: 1rem;
+        }
+
+        thead th {
+            background-color: #4f93ec;
+            color: white;
+            padding: 14px 18px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        tbody tr {
+            background: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #eaf4ff;
+        }
+
+        tbody td {
+            padding: 15px 18px;
+            text-align: center;
+            vertical-align: middle;
+            border: none;
+            color: #34495e;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .confirm-btn {
+            background-color: #27ae60;
+        }
+
+        .confirm-btn:hover {
+            background-color: #1e8449;
+            box-shadow: 0 5px 15px rgba(30, 132, 73, 0.6);
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+            box-shadow: 0 5px 15px rgba(192, 57, 43, 0.6);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 25px;
+            color: #7f8c8d;
+            font-weight: 600;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .add-patient-form {
+                padding: 25px 20px;
+                max-width: 100%;
+            }
+
+            thead th, tbody td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        لوحة تحكم مستشفى {{ hospital.name }}
+    </header>
+
+    <div class="container">
+
+        <section class="add-patient-form">
+            <h3>تسجيل مريض جديد</h3>
+            <form action="/clinic/{{ hospital.id }}/add_patient" method="POST">
+                <input type="text" name="patient_name" placeholder="اسم المريض الرباعي" required />
+                <input type="text" name="patient_phone" placeholder="رقم الهاتف" required />
+                <select name="gender" required>
+                    <option value="" disabled selected>الجنس</option>
+                    <option value="ذكر">ذكر</option>
+                    <option value="أنثى">أنثى</option>
+                </select>
+                <input type="text" name="blood_type" placeholder="فصيلة الدم" required />
+                <input type="text" name="address" placeholder="عنوان السكن" required />
+                <input type="text" name="clinic_name" placeholder="اسم العيادة" required />
+                <input type="text" name="doctor_name" placeholder="اسم الطبيب" required />
+                <button type="submit">تسجيل المريض</button>
+            </form>
+        </section>
+
+        <section>
+            <h3 style="text-align: center; margin-bottom: 20px;">قائمة المرضى</h3>
+            {% if patients %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>اسم المريض</th>
+                        <th>رقم الهاتف</th>
+                        <th>الجنس</th>
+                        <th>فصيلة الدم</th>
+                        <th>العنوان</th>
+                        <th>اسم العيادة</th>
+                        <th>اسم الطبيب</th>
+                        <th>تأكيد الحضور</th>
+                        <th>حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.name }}</td>
+                        <td>{{ patient.phone }}</td>
+                        <td>{{ patient.gender }}</td>
+                        <td>{{ patient.blood_type }}</td>
+                        <td>{{ patient.address }}</td>
+                        <td>{{ patient.clinic_name }}</td>
+                        <td>{{ patient.doctor_name }}</td>
+                        <td>
+                            <form action="/clinic/{{ hospital.id }}/confirm_patient/{{ patient.id }}" method="POST">
+                                <button type="submit" class="btn confirm-btn">تأكيد</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/clinic/{{ hospital.id }}/delete_patient/{{ patient.id }}" method="POST">
+                                <button type="submit" class="btn delete-btn">حذف</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">لا يوجد مرضى مسجلين.</div>
+            {% endif %}
+        </section>
+
+    </div>
+
+</body>
+</html>

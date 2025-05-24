@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>لوحة تحكم الأدمن</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Tajawal', sans-serif;
+      background: #e8f0f8;
+    }
+
+    h2, h3 {
+      color: #155d50;
+    }
+
+    .section {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      color: #ffffff;
+    }
+
+    tr:hover {
+      background-color: #f0f8ff;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .add-form input, .add-form select {
+      padding: 12px;
+      margin: 8px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: 2px solid #155d50;
+      font-size: 16px;
+      outline: none;
+      color: #155d50;
+    }
+
+    .add-form input:focus, .add-form select:focus {
+      border-color: #2a9d8f;
+    }
+
+    .add-form button {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      color: #e6f0f3;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .add-form button:hover {
+      background: linear-gradient(45deg, #2a9d8f, #155d50);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .section {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>لوحة تحكم الأدمن</h2>
+
+  <div class="section">
+    <h3>إدارة المستخدمين</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>البريد الإلكتروني</th>
+          <th>نوع الحساب</th>
+          <th>تاريخ التسجيل</th>
+          <th>إجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.registered_at }}</td>
+          <td>
+            <form action="/admin/delete_user/{{ user.id }}" method="POST" style="margin:0;">
+              <button type="submit" class="btn delete-btn">حذف</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5">لا يوجد مستخدمين.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>إدارة المستشفيات</h3>
+    <form action="/admin/add_hospital" method="POST" class="add-form">
+      <input type="text" name="hospital_name" placeholder="اسم المستشفى" required />
+      <input type="text" name="hospital_address" placeholder="عنوان المستشفى" required />
+      <button type="submit">إضافة مستشفى جديدة</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>اسم المستشفى</th>
+          <th>العنوان</th>
+          <th>إجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hospital in hospitals %}
+        <tr>
+          <td>{{ hospital.name }}</td>
+          <td>{{ hospital.address }}</td>
+          <td>
+            <form action="/admin/delete_hospital/{{ hospital.id }}" method="POST" style="margin:0;">
+              <button type="submit" class="btn delete-btn">حذف</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="3">لا يوجد مستشفيات مسجلة.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

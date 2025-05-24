@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>منصة عيادتك - الصفحة الرئيسية</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Tajawal', sans-serif;
+      background: #e8f0f8;
+      color: #155d50;
+    }
+
+    .navbar {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      padding: 15px 25px;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .card {
+      background: white;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2, .card h3, .section-title {
+      color: #155d50;
+      margin-bottom: 20px;
+    }
+
+    .user-info p {
+      font-size: 18px;
+      margin: 6px 0;
+      color: #285d45;
+    }
+
+    .district {
+      margin-bottom: 40px;
+    }
+
+    .district h4 {
+      font-size: 20px;
+      margin-bottom: 18px;
+      color: #155d50;
+      border-bottom: 2px solid #2a9d8f;
+      padding-bottom: 6px;
+    }
+
+    .hospital-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .hospital-card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .hospital-card img {
+      max-width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+
+    .hospital-card .hospital-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #155d50;
+      margin-bottom: 8px;
+    }
+
+    .hospital-card .hospital-address {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #155d50, #2a9d8f);
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #2a9d8f, #155d50);
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-links {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div>منصة عيادتك</div>
+  <div class="nav-links">
+    <!-- الرابط للرئيسية: تأكد من استدعاء دالة العرض المناسبة -->
+
+      <a href="{{url_for('index')}}"> الرئيسيه</a>
+
+    <!-- رابط مواعيدي صحيح كما هو -->
+    <a href="{{ url_for('my_appointments') }}">مواعيدي</a>
+
+    <!-- رابط صفحة "من نحن" التي في مجلد templates/tem.html -->
+    <!-- يجب أن يكون لديك route يعيد عرض هذه الصفحة، مثلاً: -->
+    <!-- @app.route('/about') -> render_template('tem.html') -->
+    <a href="{{ url_for('about') }}">من نحن</a>
+
+    <!-- رابط تسجيل الخروج -->
+    <a href="{{ url_for('logout') }}">تسجيل الخروج</a>
+  </div>
+</div>
+
+  <div class="container">
+
+    <!-- معلومات المستخدم -->
+    <div class="card">
+      <h2>مرحباً، {{ user.fullname }} 👋</h2>
+      <div class="user-info">
+        <p><strong>البريد الإلكتروني:</strong> {{ user.email }}</p>
+        <p><strong>رقم الهاتف:</strong> {{ user.phone }}</p>
+        <p><strong>الجنس:</strong> {{ user.gender }}</p>
+        <p><strong>فصيلة الدم:</strong> {{ user.blood_type }}</p>
+        <p><strong>العنوان:</strong> {{ user.address }}</p>
+      </div>
+    </div>
+
+    <!-- المديريات والمستشفيات -->
+    <h3 class="section-title">المديريات والمستشفيات المتوفرة:</h3>
+
+    {% for district in districts %}
+    <div class="district card">
+      <h4>مديرية {{ district.name }}</h4>
+      <div class="hospital-grid">
+        {% for hospital in district.hospitals %}
+        <div class="hospital-card">
+        <img src="{{ url_for('static', filename=hospital.image_url) }}" alt="شعار {{ hospital.name }}">
+          <div class="hospital-name">{{ hospital.name }}</div>
+          <div class="hospital-address">{{ hospital.address }}</div>
+          <a class="btn" href="{{ url_for('clinics', hospital_id=hospital.id) }}">عرض العيادات</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+    <footer>
+  <p>&copy; Programming ALHABIB Software</p>
+  </footer>
+            
+</body>
+</html>
